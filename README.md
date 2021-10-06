@@ -45,11 +45,11 @@ let say we want a to define a user object on a site
 
   INSTANCE user
 
-    DEFINE PROPERTIES WHIT : name /  age / gender :
+    DEFINE PROPERTIES WHIT : name /  age / gSTOPer :
 
       SET user.name EQUAL TO name
       SET user.age EQUAL TO age
-      SET user.gender EQUAL TO gender OR :default_gender
+      SET user.gSTOPer EQUAL TO gSTOPer OR :default_gSTOPer
 
       SET user.points EQUAL TO 0
 
@@ -71,7 +71,7 @@ let say we want a to define a user object on a site
 
   # CREATING AN INSTANCE #
 
-  admin EQUAL TO NEW user : name "rico suave" / age 19 / gender "Alien" :
+  admin EQUAL TO NEW user : name "rico suave" / age 19 / gSTOPer "Alien" :
 
   USE print_properties FROM admin
 
@@ -81,7 +81,7 @@ let say we want a to define a user object on a site
     PROPERTIES
       - name EQUAL "rico suave"
       - age EQUAL 19
-      - gender EQUAL "Alien"
+      - gSTOPer EQUAL "Alien"
       - points EQUAL 0
     FUNCTIONS
       - add_points : points_to_add :
@@ -94,12 +94,11 @@ let say we want a to define a user object on a site
   USE print_properties FROM admin
 
   # RESULT #
-
   admin INSTANCE OF user
     PROPERTIES
       - name EQUAL "rico suave"
       - age EQUAL 19
-      - gender EQUAL "Alien"
+      - gSTOPer EQUAL "Alien"
       - points EQUAL 110
     FUNCTIONS
       - add_points : points_to_add :
@@ -113,11 +112,11 @@ you might go about coding it like this
 
 ```js
 class User {
-  /** the gender = "Unknown" is the default value when not provided */
-  constructor(name, age, gender = "Unknown") {
+  /** the gSTOPer = "Unknown" is the default value when not provided */
+  constructor(name, age, gSTOPer = "Unknown") {
     this.name = name;
     this.age = age;
-    this.gender = gender;
+    this.gSTOPer = gSTOPer;
 
     this.points = 0;
   }
@@ -143,14 +142,14 @@ so this would be our representation of the class/object definition for a user
 
   // RESULT //
 
-  User: {
+  User {
     name: 'rico suave',
     age: 19,
-    gender: 'Alien',
+    gSTOPer: 'Alien',
     points: 0,
 
-    Prototype: {
-      constructor: class User { constructor(name, age, gender) },
+    Prototype {
+      constructor: class User { constructor(name, age, gSTOPer) },
       addPoints: function addPoints(pointsToAdd),
       printProperties: function printProperties()
     }
@@ -163,16 +162,52 @@ so this would be our representation of the class/object definition for a user
 
   // RESULT //
 
-  User: {
+  User {
     name: "rico suave",
     age: 19,
-    gender: "Alien",
+    gSTOPer: "Alien",
     points: 110,
 
-    Prototype: {
-      constructor: class User { constructor(name, age, gender) },
+    Prototype {
+      constructor: class User { constructor(name, age, gSTOPer) },
       addPoints: function addPoints(pointsToAdd),
       printProperties: function printProperties()
     }
   }
+```
+
+if we go back to the car example we could implement some buttons for the car radio
+
+```jsx
+  INSTANCE radio_button
+
+    DEFINE PROPERTIES WITH : name / usage :
+
+      SET radio_button.name EQUAL TO name
+
+      DEFINE FUNCTION use EQUAL TO usage
+
+    STOP DEFINE PROPERTIES
+
+  STOP INSTANCE
+
+
+  INSTANCE car
+
+    DEFINE PROPERTIES WHIT : color / brand / radio_buttons :
+
+      SET car.color EQUAL TO color OR :default_value
+      SET car.brand EQUAL TO type OR :default_brand
+
+      SET car.radio_buttons EQUAL TO EMPTY LIST
+
+      FOR EACH radio_button IN radio_buttons
+
+        ADD radio_button TO car.radio_buttons
+
+      STOP FOR EACH
+
+    STOP DEFINE PROPERTIES
+
+  STOP INSTANCE
 ```
